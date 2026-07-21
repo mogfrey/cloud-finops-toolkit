@@ -1,0 +1,49 @@
+name: Test FinOps toolkit
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: finops-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Compile Python sources
+        run: python -m compileall -q scripts tests
+
+      - name: Run unit tests
+        run: pytest -q
+
+      - name: Exercise offline sample report
+        run: python scripts/aws_cost_report.py --input examples/sample_aws_costs.json --output /tmp/aws-cost-report.csv
+
+      - name: Exercise ingestion projection
+        run: >-
+          python scripts/ingestion_cost_projection.py
+          --current-daily-gb 42.5
+          --additional-daily-gb 5
+          --price-per-gb 2.30
+          --days 30
