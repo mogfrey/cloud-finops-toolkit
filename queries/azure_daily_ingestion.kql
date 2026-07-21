@@ -1,0 +1,18 @@
+// Daily billable Log Analytics ingestion for the last 30 complete/current days.
+// Usage.Quantity is reported in MB for the Data Volume category.
+let StartTime = startofday(ago(30d));
+let EndTime = now();
+let DailyByType =
+    Usage
+    | where TimeGenerated between (StartTime .. EndTime)
+    | where IsBillable == true
+    | where Quantity > 0
+    | summarize IngestedMB = sum(Quantity) by Day = bin(TimeGenerated, 1d), DataType
+    | extend IngestedGB = round(IngestedMB / 1000.0, 3)
+    | project Day, DataType, IngestedGB;
+union
+    (DailyByType),
+    (DailyByType
+        | summarize IngestedGB = round(sum(IngestedGB), 3) by Day
+        | extend DataType = "ALL BILLABLE DATA")
+| order by Day asc, IngestedGB desc
