@@ -1,0 +1,74 @@
+{
+  "ResultsByTime": [
+    {
+      "TimePeriod": {
+        "Start": "2026-05-01",
+        "End": "2026-06-01"
+      },
+      "Groups": [
+        {
+          "Keys": ["Amazon Elastic Compute Cloud - Compute"],
+          "Metrics": {
+            "UnblendedCost": {
+              "Amount": "1840.2371",
+              "Unit": "USD"
+            }
+          }
+        },
+        {
+          "Keys": ["Amazon Relational Database Service"],
+          "Metrics": {
+            "UnblendedCost": {
+              "Amount": "920.4100",
+              "Unit": "USD"
+            }
+          }
+        },
+        {
+          "Keys": ["AmazonCloudWatch"],
+          "Metrics": {
+            "UnblendedCost": {
+              "Amount": "318.9084",
+              "Unit": "USD"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "TimePeriod": {
+        "Start": "2026-06-01",
+        "End": "2026-07-01"
+      },
+      "Groups": [
+        {
+          "Keys": ["Amazon Elastic Compute Cloud - Compute"],
+          "Metrics": {
+            "UnblendedCost": {
+              "Amount": "1762.5300",
+              "Unit": "USD"
+            }
+          }
+        },
+        {
+          "Keys": ["Amazon Relational Database Service"],
+          "Metrics": {
+            "UnblendedCost": {
+              "Amount": "981.7550",
+              "Unit": "USD"
+            }
+          }
+        },
+        {
+          "Keys": ["AmazonCloudWatch"],
+          "Metrics": {
+            "UnblendedCost": {
+              "Amount": "512.1442",
+              "Unit": "USD"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
