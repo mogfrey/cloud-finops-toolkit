@@ -1,0 +1,43 @@
+name: Temporary Payoneer Goal APK Builder
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'payoneer-goal/**'
+
+permissions:
+  contents: read
+
+jobs:
+  build-payoneer-goal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Build debug APK
+        working-directory: payoneer-goal
+        run: gradle assembleDebug --stacktrace
+
+      - name: Rename APK
+        run: cp payoneer-goal/app/build/outputs/apk/debug/app-debug.apk payoneer-goal/Payoneer-Goal-40000-USD.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Payoneer-Goal-40000-USD
+          path: payoneer-goal/Payoneer-Goal-40000-USD.apk
+          if-no-files-found: error
